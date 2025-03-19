@@ -1,0 +1,32 @@
+<solids>
+    <box name="WorldSolid" x="world_size" y="world_size" z="world_size" lunit="mm"/>
+    <tube name="detectorSolid" startphi="0" deltaphi="360" rmin="0" rmax="25" z="50" aunit="deg" lunit="mm" />
+</solids>
+
+<structure>
+
+   <!-- {{{ Volumes definition (material and solid assignment) -->
+
+    <volume name="detectorVolume">
+        <materialref ref="G4_CESIUM_IODIDE"/>
+        <solidref ref="detectorSolid"/>
+    </volume>
+
+    <!-- }}} -->
+
+    <!-- {{{ Physical volume definition (volume and position assignment) -->
+
+        <volume name="World">
+        <materialref ref="Air"/>
+        <solidref ref="WorldSolid"/>
+
+        <physvol name="detector">
+            <volumeref ref="detectorVolume"/>
+            <position name="detectorPosition"  x="0" y="0" z="25" unit="mm"/>
+        </physvol>
+        
+   </volume>
+    <!-- }}} -->
+
+</structure>
+

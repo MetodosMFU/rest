@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+
+<restG4>
+
+   <TRestRun name="MMFU" title="MMFU">
+        <parameter name="readOnly" value="false" />
+        <parameter name="runNumber" value="auto"/>
+        <parameter name="runDescription" value=""/>
+        <parameter name="user" value="${USER}"/>
+        <parameter name="verboseLevel" value="1"/>
+        <parameter name="overwrite" value="off" />
+        <parameter name="outputFileName" value="Run[fRunNumber]_[fRunType]_[fRunTag]_[fRunUser].root" />
+    </TRestRun>  
+ 
+   <globals>
+        <parameter name="verboseLevel" value="warning" />
+    </globals>
+
+    <TRestGeant4Metadata name="restG4 run"  title="gammas_662keV">
+
+        <parameter name="gdml_file" value="geometry/setup.gdml"/>
+        <parameter name="subEventTimeDelay" value="100us" />
+
+        <parameter name="Nevents" value="10000" />
+        <parameter name="saveAllEvents" value="false" />
+        <parameter name="printProgress" value="true" />
+
+        <generator type="surface" shape="wall" size="(0,0,0)" position="(0,0,0)" rotation="(0,0,0)" >
+          <source particle="gamma" >
+            <angularDist type="flux" direction="(0,0,1)"/>
+            <energyDist type="mono" energy="662.5" units="keV" />
+          </source>
+        </generator>
+
+        <detector>
+            <parameter name="energyRange" value="(1,1000000)keV"/>
+            <volume name="detector" sensitive="true" chance="1" maxStepSize="0.01mm"/>
+        </detector>
+    </TRestGeant4Metadata>
+
+  <TRestGeant4PhysicsLists name="PhysicsList" title="First physics list implementation." verboseLevel="warning" >
+
+    <parameter name="cutForGamma" value="0.5" units="mm" />
+    <parameter name="cutForElectron" value="0.5" units="mm" />
+    <parameter name="cutForPositron" value="0.5" units="mm" />
+
+    <parameter name="cutForMuon" value="1" units="mm" />
+    <parameter name="cutForNeutron" value="1" units="mm" />
+    <parameter name="minEnergyRangeProductionCuts" value="1" units="keV" />
+    <parameter name="maxEnergyRangeProductionCuts" value="1" units="GeV" />
+
+    <!-- EM Physics lists -->
+    <physicsList name="G4EmLivermorePhysics"> </physicsList>
+    <!-- <physicsList name="G4EmPenelopePhysics"> </physicsList> -->
+    <!-- <physicsList name="G4EmStandardPhysics_option3"> </physicsList> -->
+
+    <!-- Decay physics lists -->
+    <physicsList name="G4DecayPhysics"> </physicsList>
+    <physicsList name="G4RadioactiveDecayPhysics"> </physicsList>
+    <physicsList name="G4RadioactiveDecay"> 
+        <option name="ICM" value="true" />
+        <option name="ARM" value="true" />
+    </physicsList>
+
+    <!-- Hadron physics lists -->
+    
+    <physicsList name="G4HadronElasticPhysicsHP"> </physicsList>
+    <physicsList name="G4IonBinaryCascadePhysics"> </physicsList>
+    <physicsList name="G4HadronPhysicsQGSP_BIC_HP"> </physicsList>
+    <physicsList name="G4EmExtraPhysics"> </physicsList>
+
+</TRestGeant4PhysicsLists> 
+
+</restG4>
+
