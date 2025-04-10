@@ -1,0 +1,32 @@
+
+<TRestManager>
+
+    <TRestRun name="Process" title="G4Analysis">
+	<parameter name="readOnly" value="false"/>
+        <parameter name="runNumber" value="preserve"/>
+        <parameter name="runTag" value="preserve"/>
+        <parameter name="runType" value="preserve"/>
+        <parameter name="runDescription" value=""/>
+        <parameter name="user" value="${USER}"/>
+        <parameter name="verboseLevel" value="1"/>
+        <parameter name="overwrite" value="off"/>
+        <parameter name="inputFormat" value="Run[fRunNumber]_[fRunType]_[fRunTag]_[fRunUser].root"/>
+        <parameter name="outputFileName" value="Run[fRunNumber]_[fRunType]_[fRunTag]_G4Ana_[fRunUser].root" />
+    </TRestRun>
+
+	<TRestProcessRunner name="g4ToSignal" verboseLevel="info">
+        <parameter name="eventsToProcess" value="0"/>
+        <parameter name="threadNumber" value="1"/>
+
+        <parameter name="inputAnalysisStorage" value="on"/>
+        <parameter name="inputEventStorage" value="on"/>
+        <parameter name="outputEventStorage" value="on"/>
+
+        <addProcess type="TRestGeant4AnalysisProcess" name="g4Ana" value="ON" observable="all">
+        </addProcess>
+    </TRestProcessRunner>
+
+    <addTask type="processEvents" value="ON"/>
+
+</TRestManager>
+

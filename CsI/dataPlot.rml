@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+
+<TRestManager>
+
+	<TRestDataSetPlot name="restplot" title="Basic Plots" previewPlot="true" canvasSize="(1200,800)" canvasDivisions="(3,1)" verboseLevel="info">
+
+           <addCut name="origin"/>
+
+           <TRestCut name="origin" verboseLevel="info">
+              <cut name="c1" variable="g4Ana_xOriginPrimary" condition="==0" />
+              <cut name="c2" variable="g4Ana_yOriginPrimary" condition="==0" />
+              <cut name="c3" variable="g4Ana_yOriginPrimary" condition="==0" />
+           </TRestCut>
+
+              <panel font_size="0.05" precision="3">
+                  <metadata value="[TRestRun::fRunNumber]" label="Run number" x="0.25" y="0.9" />
+                  <metadata value="[TRestRun::fRunTag]" label="Run tag" x="0.25" y="0.82" />
+                  <variable value="[[startTime]]" label="Data starts" x="0.25" y="0.74" />
+                  <variable value="[[endTime]]" label ="Data ends" x="0.25" y="0.66" />
+                  <variable value="[[entries]]" label="Entries" x="0.25" y="0.58" />
+             </panel>
+
+		<plot name="Spectra" title="Spectra" xlabel="Energy(keV)" ylabel="Counts" 
+			legend="ON"  value="ON" logY="true" annotation="OFF" >
+				<variable name="g4Ana_totalEdep" range="(0,1000)" nbins="4096" />
+		</plot>
+
+                <plot name="Rate" title="Rate" xlabel="Date/time" ylabel="Rate (Hz)" 
+                        legend="ON"  value="ON" scale="binSize" timeDisplay="ON" >
+                                <variable name="timeStamp" range="" nbins="100" />
+                </plot>
+
+
+	</TRestDataSetPlot>
+
+	<addTask command="restplot->PlotCombinedCanvas()" value="ON"/>
+
+</TRestManager>
+
+<!--paramater here is accessible to all the classes-->
+
+
+
