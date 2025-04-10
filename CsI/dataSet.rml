@@ -1,0 +1,19 @@
+
+<TRestManager>
+
+<TRestDataSet name="G4Ana" verboseLevel="info">
+   <filter metadata="TRestRun::fRunTag" contains="137Cs"/>
+   <parameter name="filePattern" value="Run*_G4Ana_*.root"/>
+   <processObservables list="g4Ana" />
+   
+   
+   <TRestCut name="DummyCut" verboseLevel="info">
+     <cut name="c1" variable="g4Ana_xOriginPrimary" condition="==0" />
+     <cut name="c2" variable="g4Ana_yOriginPrimary" condition="==0" />
+     <cut name="c3" variable="g4Ana_yOriginPrimary" condition="==0" />
+   </TRestCut>
+   
+</TRestDataSet>
+
+</TRestManager>
+
