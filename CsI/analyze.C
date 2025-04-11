@@ -71,9 +71,14 @@ void analyze (const std::string &fileName){
 
       spectra->Fill(sensitiveVolumeEnergy);
 
-      auto track = g4Event->GetTrackByID(12);
-      if(track == nullptr)continue;
+      //auto track = g4Event->GetTrackByID(12);
+      //if(track == nullptr)continue;
       
+      const auto nTracks = g4Event->GetNumberOfTracks();
+      if(nTracks<=0)continue;
+
+      for (unsigned int trackIndex = 0; trackIndex < nTracks; trackIndex++) {
+      const auto track = g4Event->GetTrackPointer(trackIndex);
       
       const auto hits = track->GetHits();
       double initEn = track->GetInitialKineticEnergy();
@@ -84,6 +89,7 @@ void analyze (const std::string &fileName){
 
           const std::string process = hits.GetProcessName(hitIndex).Data();
 
+          if( hits.GetVolumeId(hitIndex) != sensitiveVolID)continue;
           if(process == "Init" || process == "Transportation")continue;
 
           const TVector3 currentPos = hits.GetPosition(hitIndex);
@@ -107,7 +113,7 @@ void analyze (const std::string &fileName){
                 processMap[process] = std::make_pair(p.first+1, p.second+energy);
               }          
         }
-
+      }
           if(!processMap.empty()){
             processMapVector.push_back(processMap);
                for(const auto& [process, p ] : processMap){

@@ -119,14 +119,9 @@ void Geant4ToSignal(const std::string &inputFile){
         }
 
         if(totalPhotons<=0)continue;
-        rawSignalEvent.Initialize();
-        rawSignalEvent.SetID(g4Event->GetID());
-        rawSignalEvent.SetSubID(g4Event->GetSubID());
-        rawSignalEvent.SetTimeStamp(g4Event->GetTimeStamp());
-        rawSignalEvent.SetSubEventTag(g4Event->GetSubEventTag());
+
         double res = 1./TMath::Sqrt(totalPhotons);
         TRandom3 smear(0);
-        TRandom3 noise(0);
         const double smearFactor = smear.Gaus(1.0, res);
         for (auto& val : data)val *=smearFactor;
         std::vector<int> shapedData(nTimeBins,0);
@@ -137,13 +132,21 @@ void Geant4ToSignal(const std::string &inputFile){
               }
           }
 
+        rawSignalEvent.Initialize();
+        rawSignalEvent.SetID(g4Event->GetID());
+        rawSignalEvent.SetSubID(g4Event->GetSubID());
+        rawSignalEvent.SetTimeStamp(g4Event->GetTimeStamp());
+        rawSignalEvent.SetSubEventTag(g4Event->GetSubEventTag());
         TRestRawSignal rawSignal;
         rawSignal.SetSignalID(1);
+
+        TRandom3 noise(0);
             for(const auto& val : shapedData){
               int ADC = val+noise.Gaus(0, noiseLevel) + ADCOffset;
               if(ADC<0 || ADC >std::numeric_limits<short>::max()) ADC =std::numeric_limits<short>::max();
               rawSignal.AddPoint((Short_t)ADC);
             }
+
         rawSignalEvent.AddSignal(rawSignal);
 
         rawSignalEvent.SetBaseLineRange(baselineRange);
