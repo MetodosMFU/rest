@@ -2,7 +2,7 @@
 <TRestManager>
 
 <TRestDataSet name="G4Ana" verboseLevel="info">
-   <filter metadata="TRestRun::fRunTag" contains="137Cs"/>
+   <filter metadata="TRestRun::fRunTag" contains="gammas"/>
    <parameter name="filePattern" value="Run*_G4Ana_*.root"/>
    <processObservables list="g4Ana" />
    
